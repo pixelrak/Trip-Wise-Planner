@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Trip Wise"
+description = "A client-side travel planner for discovering real places, exploring destination details, and building a persistent personal itinerary."
+version = "1.0.0"
+id = "artifacts/trip-wise"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20602
+
+[services.development]
+run = "pnpm --filter @workspace/trip-wise run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/trip-wise", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/trip-wise/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20602"
+BASE_PATH = "/"
